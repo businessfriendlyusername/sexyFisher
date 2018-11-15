@@ -37,8 +37,8 @@ public class Fishing {
 //~~~~~~~~~~~~~~~~~Fishing Locations~~~~~~~~~~~~~~~~~
     public enum LOCATION{
         LUMBRIDGE_SWAMP(new RSTile(3241, 3149, 0)),
-        KARAMJA_DOCK(new RSTile(2924, 3178)),
-        BARBARIAN_VILLAGE(new RSTile(3109, 3433));
+        KARAMJA_DOCK(new RSTile(2924, 3178, 0)),
+        BARBARIAN_VILLAGE(new RSTile(3109, 3433, 0));
 
         private RSTile location;
 

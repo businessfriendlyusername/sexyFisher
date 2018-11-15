@@ -15,7 +15,15 @@ public class WalkToBank extends Node {
 
     LinkedList<String> tools = new LinkedList<String>();
 
-    public WalkToBank(Fishing.TOOLS fishingMethod){
+    public WalkToBank(Fishing.TOOLS fishingMethod, Fishing.LOCATION location){
+
+        switch (location){
+            case KARAMJA_DOCK:
+                tools.add("Coins");
+                break;
+            default:
+                break;
+        }
 
         switch (fishingMethod){
             case FLY:
@@ -63,6 +71,10 @@ public class WalkToBank extends Node {
                 System.out.println(tool);
                 return false;
             }
+            if((tool.equals("Feather") || tool.equals("Fishing bait")) && Inventory.getCount(tool) < 27)//we don't have enough bait/feathers for a full inventory
+                return false;
+            if(tool.equals("Coins") && Inventory.getCount(tool) < 60)//test for karamja dock fishing
+                return false;
         }
         return true;
     }

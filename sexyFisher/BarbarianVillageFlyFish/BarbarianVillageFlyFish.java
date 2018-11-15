@@ -17,17 +17,24 @@ public class BarbarianVillageFlyFish{
     private BooleanSupplier stopCondition;
 
     public BarbarianVillageFlyFish(BooleanSupplier stopCondition){
-        Collections.addAll(nodes, new WalkToFish(Fishing.TOOLS.FLY, Fishing.LOCATION.BARBARIAN_VILLAGE), new Fish(Fishing.TOOLS.FLY, -1),
-                new WalkToBank(), new Bank(Fishing.TOOLS.FLY));
+        Collections.addAll(nodes, new WalkToFish(Fishing.TOOLS.FLY, Fishing.LOCATION.BARBARIAN_VILLAGE), new Fish(Fishing.TOOLS.FLY, Fishing.LOCATION.BARBARIAN_VILLAGE),
+                new WalkToBank(Fishing.TOOLS.FLY, Fishing.LOCATION.BARBARIAN_VILLAGE), new Bank(Fishing.TOOLS.FLY, Fishing.LOCATION.BARBARIAN_VILLAGE));
+        this.stopCondition = stopCondition;//we will stop fishing when some condition is met
     }
 
     public BarbarianVillageFlyFish(){
-        Collections.addAll(nodes, new WalkToFish(Fishing.TOOLS.FLY, Fishing.LOCATION.BARBARIAN_VILLAGE), new Fish(Fishing.TOOLS.FLY, -1),
-                new WalkToBank(), new Bank(Fishing.TOOLS.FLY));
+        Collections.addAll(nodes, new WalkToFish(Fishing.TOOLS.FLY, Fishing.LOCATION.BARBARIAN_VILLAGE), new Fish(Fishing.TOOLS.FLY, Fishing.LOCATION.BARBARIAN_VILLAGE),
+                new WalkToBank(Fishing.TOOLS.FLY, Fishing.LOCATION.BARBARIAN_VILLAGE), new Bank(Fishing.TOOLS.FLY, Fishing.LOCATION.BARBARIAN_VILLAGE));
+        this.stopCondition = new BooleanSupplier() {//we will never stop fishing
+            @Override
+            public boolean getAsBoolean() {
+                return true;
+            }
+        };
     }
 
     public void run(){
-        while(Inventory.getCount("Feather") != 0) {
+        while(stopCondition.getAsBoolean()) {
             for (final Node node : nodes) {
                 if (node.validate()) {
                     General.sleep(300, 700);

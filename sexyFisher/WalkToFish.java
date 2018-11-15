@@ -14,9 +14,9 @@ import java.util.function.BooleanSupplier;
 
 public class WalkToFish extends Node {
 
-    LinkedList<String> tools = new LinkedList<String>();
-    RSTile fishingLocation;
-    String fishingSpotName;
+    private LinkedList<String> tools = new LinkedList<String>();
+    private RSTile fishingLocation;
+    private String fishingSpotName;
 
     public WalkToFish(Fishing.TOOLS fishingMethod, Fishing.LOCATION location){
 
@@ -26,6 +26,7 @@ public class WalkToFish extends Node {
                 break;
             case KARAMJA_DOCK:
                 this.fishingLocation = Fishing.LOCATION.KARAMJA_DOCK.getAsRSTile();
+                tools.add("Coins");
                 break;
             case BARBARIAN_VILLAGE:
                 this.fishingLocation = Fishing.LOCATION.BARBARIAN_VILLAGE.getAsRSTile();
@@ -47,6 +48,7 @@ public class WalkToFish extends Node {
             case SMALLNET:
                 tools.clear();
                 tools.add("Small fishing net");
+                this.fishingSpotName = "Fishing spot";
                 break;
             case BIGNET:
                 tools.clear();
@@ -75,19 +77,26 @@ public class WalkToFish extends Node {
                 System.out.println(tool);
                 return false;
             }
+            if((tool.equals("Feather") || tool.equals("Fishing bait")) && Inventory.getCount(tool) < 27)//we don't have enough bait/feathers for a full inventory
+                return false;
+            if(tool.equals("Coins") && Inventory.getCount(tool) < 60)//test for karamja dock fishing
+                return false;
         }
         return true;
     }
 
     @Override
     public void execute() {
-        System.out.println("Walking to fish");//2924 3178 //karamja dock ~~ 3026 3217 port sarim dock
-        WebWalking.walkTo(fishingLocation, new BooleanSupplier() {
+        System.out.println("Walking to fish1");
+        if(!WebWalking.walkTo(fishingLocation, new BooleanSupplier() {
             @Override
             public boolean getAsBoolean() {
                 return Interfaces.get(595, 37) != null;//webwalking opened the world map
             }
-        }, 500);
+        }, 500))
+            System.out.println("FAILED");
+        else
+            System.out.println("SUCCESS");
         if(Interfaces.get(595, 37) != null)
             Interfaces.get(595, 37).click("Close");
     }
