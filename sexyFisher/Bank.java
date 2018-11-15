@@ -3,6 +3,7 @@ package scripts.sexyFisher;
 import org.tribot.api.util.abc.ABCUtil;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Inventory;
+import scripts.API.Fishing;
 import scripts.API.Node;
 
 import java.util.ArrayList;
@@ -10,10 +11,8 @@ import java.util.LinkedList;
 
 public class Bank extends Node {
 
-    public Bank(Tools.tools fishingMethod)
+    public Bank(Fishing.TOOLS fishingMethod)
     {
-//        abc = antiban;
-
         switch(fishingMethod){
             case FLY:
                 tools.clear();

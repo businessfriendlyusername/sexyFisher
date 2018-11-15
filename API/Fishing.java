@@ -6,6 +6,15 @@ import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSTile;
 
 public class Fishing {
+//~~~~~~~~~~~~~~~~~~Fishing Tools~~~~~~~~~~~~~~~~~~~~~
+    public enum TOOLS {
+        FLY,
+        BAIT,
+        SMALLNET,
+        BIGNET,
+        HARPOON,
+        LOBSTER
+    }
 //~~~~~~~~~~~~~~~~Fishing Animations~~~~~~~~~~~~~~~~~
     public enum ANIMATION{//TODO fill out animation vals
 
@@ -25,15 +34,15 @@ public class Fishing {
             this.animationAsInt = num;
     }
 }
-
 //~~~~~~~~~~~~~~~~~Fishing Locations~~~~~~~~~~~~~~~~~
     public enum LOCATION{
-        LUMBRIDGE_SWAMP(new RSTile(3241, 3149, 0));
-
+        LUMBRIDGE_SWAMP(new RSTile(3241, 3149, 0)),
+        KARAMJA_DOCK(new RSTile(2924, 3178)),
+        BARBARIAN_VILLAGE(new RSTile(3109, 3433));
 
         private RSTile location;
 
-        public RSTile getRSTile(){
+        public RSTile getAsRSTile(){
             return location;
         }
 
@@ -42,18 +51,10 @@ public class Fishing {
         }
 }
 
-    public static boolean isAtFish(int distance){
-        RSNPC[] fishingSpots = NPCs.findNearest("Rod Fishing spot");
-        if(fishingSpots.length < 1)
+    public static boolean isAtFish(RSTile location, String fishingSpotName){
+        if(Player.getPosition().distanceTo(location) > 100)
             return false;
-        else if (Player.getPosition().distanceTo(fishingSpots[0]) <= distance)
-            return true;
-        else
-            return false;
-    }
-
-    public static boolean isAtFish(){
-        RSNPC[] fishingSpots = NPCs.findNearest("Rod Fishing spot");
+        RSNPC[] fishingSpots = NPCs.findNearest(fishingSpotName);
         if(fishingSpots.length < 1)
             return false;
         else

@@ -3,11 +3,8 @@ package scripts.sexyFisher;
 import org.tribot.api.DynamicClicking;
 import org.tribot.api.General;
 import org.tribot.api.Timing;
-import org.tribot.api.interfaces.Positionable;
-import org.tribot.api.util.abc.ABCUtil;
 import org.tribot.api2007.*;
 import org.tribot.api2007.types.RSNPC;
-import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 import scripts.API.AntiBan;
 import scripts.API.Fishing;
@@ -18,61 +15,73 @@ import java.util.function.BooleanSupplier;
 
 public class Fish extends Node {
 
-    private RSObject last_fishing_spot;//the last spot being fished
-    private RSTile last_fishing_tile;//the location of the last spot being fished
+    private RSTile fishingLocation;
     private String fishingOption;
     private LinkedList<String> tools = new LinkedList<String>();
-    private int proximity = -1;
     private int fishingAnimation;
     private String fishingSpotName;
 
 
-    public Fish(Tools.tools fishingMethod, int proximity){
+    public Fish(Fishing.TOOLS fishingMethod, Fishing.LOCATION location){
 
         switch (fishingMethod){
             case FLY:
                 fishingSpotName = "Rod Fishing spot";
-                fishingAnimation = Fishing.rodAnimation;
+                fishingAnimation = Fishing.ANIMATION.ROD.asInt();
                 fishingOption = "Lure";
                 tools.clear();
                 tools.add("Feather");
                 tools.add("Fly fishing rod");
                 break;
             case LOBSTER:
-                fishingAnimation = Fishing.lobsterPotAnimation;
+                fishingSpotName = "IDKF";//TODO ~~~~~~~~~~~~~~~~FIND THIS~~~~~~~~~~~~~~~~~
+                fishingAnimation = Fishing.ANIMATION.POT.asInt();
                 fishingOption = "Cage";
                 tools.clear();
                 tools.add("Lobster pot");
                 break;
             case SMALLNET:
-                fishingAnimation = Fishing.smallNetAnimation;
+                fishingSpotName = "Fishing spot";
+                fishingAnimation = Fishing.ANIMATION.SMALL.asInt();
                 fishingOption = "Net";
                 tools.clear();
                 tools.add("Small fishing net");
                 break;
             case BIGNET:
-                fishingAnimation = Fishing.bigNetAnimation;
+                fishingSpotName = "IDFK";//TODO ~~~~~~~~~~~~~~~~FIND THIS~~~~~~~~~~~~~~~~~
+                fishingAnimation = Fishing.ANIMATION.BIG.asInt();
                 fishingOption = "Net";
                 tools.clear();
                 tools.add("Big fishing net");
                 break;
             case HARPOON:
-                fishingAnimation = Fishing.harpoonAnimation;
+                fishingSpotName = "IDFK";//TODO ~~~~~~~~~~~~~~~~FIND THIS~~~~~~~~~~~~~~~~~
+                fishingAnimation = Fishing.ANIMATION.HARPOON.asInt();
                 fishingOption = "Harpoon";
                 tools.clear();
                 tools.add("Harpoon");
                 break;
             case BAIT:
                 fishingSpotName = "Rod Fishing spot";
-                fishingAnimation = Fishing.rodAnimation;
+                fishingAnimation = Fishing.ANIMATION.ROD.asInt();
                 fishingOption = "Bait";
                 tools.clear();
                 tools.add("Fishing bait");
                 tools.add("Fishing rod");
                 break;
         }
+        switch (location){
+            case LUMBRIDGE_SWAMP:
+                this.fishingLocation = Fishing.LOCATION.LUMBRIDGE_SWAMP.getAsRSTile();
+                break;
+            case KARAMJA_DOCK:
+                this.fishingLocation = Fishing.LOCATION.KARAMJA_DOCK.getAsRSTile();
+                break;
+            case BARBARIAN_VILLAGE:
+                this.fishingLocation = Fishing.LOCATION.BARBARIAN_VILLAGE.getAsRSTile();
+                break;
+        }
 
-        this.proximity = proximity;
     }
 
     private boolean isFishing(){
@@ -125,7 +134,6 @@ public class Fish extends Node {
                 return isFishing();
             }
         }, General.random(8000, 9000))) {
-            this.last_fishing_tile = fishingSpot.getPosition().clone();
             return true;
         }
         return false;//we failed to fish
@@ -150,14 +158,9 @@ public class Fish extends Node {
 
     @Override
     public boolean validate() {
-        if(proximity == -1){
-            if(Fishing.isAtFish())
-                return inventoryCheck();
-            }
-        else {
-            if (Fishing.isAtFish(proximity))
-                return inventoryCheck();
-        }
-        return false;
+        if(Fishing.isAtFish(fishingLocation, fishingSpotName))
+            return inventoryCheck();
+
+    return false;
     }
 }
