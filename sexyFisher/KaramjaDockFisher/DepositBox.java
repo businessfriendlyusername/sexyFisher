@@ -1,12 +1,10 @@
 package scripts.sexyFisher.KaramjaDockFisher;
 
 
+import obf.G;
 import org.tribot.api.General;
 import org.tribot.api.Timing;
-import org.tribot.api2007.Interfaces;
-import org.tribot.api2007.Inventory;
-import org.tribot.api2007.Objects;
-import org.tribot.api2007.Player;
+import org.tribot.api2007.*;
 import org.tribot.api2007.types.RSInterface;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
@@ -34,7 +32,10 @@ public class DepositBox extends Node {
         RSObject[] depositBox = Objects.findNearest(10, "Bank deposit box");
         if(depositBox. length == 0)
             return false;
-        depositBox[0].click("Deposit Bank deposit box");
+        if(!depositBox[0].click("Deposit Bank deposit box")) {
+            Camera.turnToTile(depositBox[0]);
+            return false;
+        }
         Timing.waitCondition(new BooleanSupplier() {
             @Override
             public boolean getAsBoolean() {
@@ -42,27 +43,48 @@ public class DepositBox extends Node {
             }
         }, General.random(3000, 5000));
         return Interfaces.get(192, 1, 11) != null;
+
     }
 
-    private boolean depositAllExceptCoinsAndTool(){
+    private void depositAllExceptCoinsAndTool(){
         RSItem[] inventory = Inventory.find("Raw lobster");
         int index;
-        if(inventory.length != 0)
+        if(inventory.length != 0) {
             index = inventory[0].getIndex();
-        else {
-            inventory = Inventory.find("Raw swordfish");
-            if(inventory.length != 0)
-                index = inventory[0].getIndex();
-            else
-                return false;
+            RSInterface deposit = Interfaces.get(192, 2, index);
+            if (deposit == null)
+                return;
+            else {
+                deposit.click("Deposit-All");
+            }
+            General.sleep(400, 900);
         }
-        RSInterface deposit = Interfaces.get(192, 2, index);
-        if(deposit == null)
-            return false;
-        else{
-            deposit.click("Deposit-All");
+
+
+        inventory = Inventory.find("Raw swordfish");
+        if(inventory.length != 0) {
+            index = inventory[0].getIndex();
+            RSInterface deposit = Interfaces.get(192, 2, index);
+            if (deposit == null)
+                return;
+            else {
+                deposit.click("Deposit-All");
+            }
+            General.sleep(400, 900);
         }
-        return true;
+
+
+        inventory = Inventory.find("Raw tuna");
+        if(inventory.length != 0) {
+            index = inventory[0].getIndex();
+            RSInterface deposit = Interfaces.get(192, 2, index);
+            if (deposit == null)
+                return;
+            else {
+                deposit.click("Deposit-All");
+            }
+            General.sleep(400, 900);
+        }
     }
 
     private void closeDepositBox(){
@@ -83,8 +105,11 @@ public class DepositBox extends Node {
     public void execute() {
         if(!isDepositBoxOpen()){
             openDepositBox();
-            if(depositAllExceptCoinsAndTool())
-                closeDepositBox();
+            General.sleep(400, 1200);
+            depositAllExceptCoinsAndTool();
+            General.sleep(200, 700);
+            closeDepositBox();
+            General.sleep(800, 1600);
         }
     }
 

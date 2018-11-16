@@ -23,14 +23,14 @@ public class KaramjaDockFisher {
     public KaramjaDockFisher(Fishing.TOOLS tool,  BooleanSupplier stopCondition){
 
         Collections.addAll(nodes, new WalkToFish(tool, Fishing.LOCATION.KARAMJA_DOCK), new Fish(tool, Fishing.LOCATION.KARAMJA_DOCK),
-                new WalkToBank(tool, Fishing.LOCATION.KARAMJA_DOCK), new WalkToPortSarimDepositBox(), new DepositBox(tool));
+                new WalkToPortSarimDepositBox(), new DepositBox(tool));
         this.stopCondition = stopCondition;//we will stop fishing when some condition is met
     }
 
     public KaramjaDockFisher(Fishing.TOOLS tool){
 
         Collections.addAll(nodes, new WalkToFish(tool, Fishing.LOCATION.KARAMJA_DOCK), new Fish(tool, Fishing.LOCATION.KARAMJA_DOCK),
-                new WalkToBank(tool, Fishing.LOCATION.KARAMJA_DOCK), new WalkToPortSarimDepositBox(), new DepositBox(tool));
+                new WalkToPortSarimDepositBox(), new DepositBox(tool));
         this.stopCondition = new BooleanSupplier() {//we will never stop
             @Override
             public boolean getAsBoolean() {
