@@ -21,7 +21,7 @@ public class Fishing {
         SMALL(621),
         BIG(0),
         ROD(623),
-        POT(0),
+        POT(619),
         HARPOON(0);
 
         private int animationAsInt;

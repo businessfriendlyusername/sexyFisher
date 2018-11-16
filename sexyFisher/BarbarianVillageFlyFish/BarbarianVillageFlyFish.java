@@ -12,7 +12,7 @@ import java.util.function.BooleanSupplier;
 
 public class BarbarianVillageFlyFish{
 
-    private static LinkedList<Node> nodes = new LinkedList<Node>();
+    private LinkedList<Node> nodes = new LinkedList<Node>();
 
     private BooleanSupplier stopCondition;
 

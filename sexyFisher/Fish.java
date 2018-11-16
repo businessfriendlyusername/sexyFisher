@@ -34,7 +34,7 @@ public class Fish extends Node {
                 tools.add("Fly fishing rod");
                 break;
             case LOBSTER:
-                fishingSpotName = "IDKF";//TODO ~~~~~~~~~~~~~~~~FIND THIS~~~~~~~~~~~~~~~~~
+                fishingSpotName = "Fishing spot";
                 fishingAnimation = Fishing.ANIMATION.POT.asInt();
                 fishingOption = "Cage";
                 tools.clear();
@@ -55,7 +55,7 @@ public class Fish extends Node {
                 tools.add("Big fishing net");
                 break;
             case HARPOON:
-                fishingSpotName = "IDFK";//TODO ~~~~~~~~~~~~~~~~FIND THIS~~~~~~~~~~~~~~~~~
+                fishingSpotName = "Fishing spot";
                 fishingAnimation = Fishing.ANIMATION.HARPOON.asInt();
                 fishingOption = "Harpoon";
                 tools.clear();

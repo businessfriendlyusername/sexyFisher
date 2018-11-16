@@ -43,7 +43,7 @@ public class WalkToFish extends Node {
             case LOBSTER:
                 tools.clear();
                 tools.add("Lobster pot");
-                this.fishingSpotName = "IDFK";//TODO ~~~~~~~~~~~~~~~~FIND THIS~~~~~~~~~~~~~~~~~
+                this.fishingSpotName = "Fishing spot";
                 break;
             case SMALLNET:
                 tools.clear();
@@ -57,7 +57,7 @@ public class WalkToFish extends Node {
             case HARPOON:
                 tools.clear();
                 tools.add("Harpoon");
-                this.fishingSpotName = "IDFK";//TODO ~~~~~~~~~~~~~~~~FIND THIS~~~~~~~~~~~~~~~~~
+                this.fishingSpotName = "Fishing spot";
                 break;
             case BAIT:
                 tools.clear();
